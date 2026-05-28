@@ -3,7 +3,7 @@ export interface Coordinates {
     longitude: number;
 }
 
-const EARTH_RADIUS_KM = 6371.29;
+const EARTH_RADIUS_KM = 6371.29; // IARU R1 standard value for 111.2 km per degree distance in contest
 const LETTERS_18 = "ABCDEFGHIJKLMNOPQR";
 const LETTERS_24 = "ABCDEFGHIJKLMNOPQRSTUVWX";
 const PAIR_STEPS = [
@@ -133,23 +133,23 @@ export function wwlocToCoordinates(locator: string): Coordinates {
  *
  * @param latitude Latitude in decimal degrees (north positive, south negative).
  * @param longitude Longitude in decimal degrees (east positive, west negative).
- * @param precision Locator length (even number from 2 to 10, default 6).
+ * @param precision Requested locator length. Fractional values are truncated, odd values are promoted to the next
+ * even value, and the final value is clamped to the even range 4..10. Default is 10.
  * @returns WWLOC locator in uppercase.
  */
-export function coordinatesToWwloc(latitude: number, longitude: number, precision: 6 | 8 | 10 | 2 | 4 = 6): string {
-    if (precision % 2 !== 0 || precision < 2 || precision > 10) {
-        throw new Error("Precision must be an even number between 2 and 10.");
-    }
+export function coordinatesToWwloc(latitude: number, longitude: number, precision: number = 10): string {
+    let normalizedPrecision = Math.trunc(precision/2);
+    normalizedPrecision = 2 * (normalizedPrecision < 2 ? 2 : normalizedPrecision>5 ? 5 : normalizedPrecision); // promote to even
 
     let lat = clampLatitude(latitude);
     let lon = normalizeLongitude(longitude);
 
     let lonOffset = lon + 180;
     let latOffset = lat + 90;
-    const pairCount = precision / 2;
+    const fullPrecisionPairCount = 5;
     let result = "";
 
-    for (let pairIndex = 0; pairIndex < pairCount; pairIndex += 1) {
+    for (let pairIndex = 0; pairIndex < fullPrecisionPairCount; pairIndex += 1) {
         const stepInfo = getPairStep(pairIndex);
 
         const lonValue = Math.floor(lonOffset / stepInfo.lon);
@@ -168,7 +168,7 @@ export function coordinatesToWwloc(latitude: number, longitude: number, precisio
         latOffset -= latValue * stepInfo.lat;
     }
 
-    return result;
+    return result.slice(0, normalizedPrecision);
 }
 
 /**
