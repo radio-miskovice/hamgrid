@@ -1,0 +1,21 @@
+{
+  "name": "hamgrid",
+  "version": "1.0.0",
+  "description": "TypeScript utilities for Amateur Radio WWLOC (Maidenhead) conversions and geodesic calculations.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -p .",
+    "start": "node dist/demo.js",
+    "demo": "npm run build && npm run start",
+    "test": "npm run demo"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@types/node": "^25.9.1",
+    "typescript": "^6.0.3"
+  }
+}
