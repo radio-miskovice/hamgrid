@@ -5,5 +5,6 @@ export {
   distanceKmBetweenCoordinates,
   distanceKmBetweenWwloc,
   wwlocToCoordinates,
+  qsoPoints,
   type Coordinates
 } from "./wwloc";
