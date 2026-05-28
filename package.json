@@ -6,6 +6,8 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc -p .",
+    "bundle:build": "esbuild src/index.ts --bundle --format=esm --platform=browser --target=es2020 --outfile=bundle/hamgrid.browser.mjs",
+    "bundle:deploy": "npm run bundle:build && git add bundle/hamgrid.browser.mjs && git commit -m \"chore: update browser bundle\" && git push origin HEAD",
     "start": "node dist/demo.js",
     "demo": "npm run build && npm run start",
     "test": "npm run demo"
@@ -16,6 +18,7 @@
   "type": "commonjs",
   "devDependencies": {
     "@types/node": "^25.9.1",
+    "esbuild": "^0.25.11",
     "typescript": "^6.0.3"
   }
 }

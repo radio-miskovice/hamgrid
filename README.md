@@ -35,6 +35,64 @@ npm run demo
 
 The demo source is in src/demo.ts and prints source grid center plus distance and bearing to configured target locators.
 
+## Browser Usage
+
+This package is compiled as CommonJS for Node.js. To use it in a browser, use one of these approaches.
+
+### Option 1: Use a bundler (recommended)
+
+Use Vite, Webpack, Parcel, or similar tooling.
+
+```bash
+npm install hamgrid
+```
+
+```ts
+import { distanceKmBetweenWwloc, bearingDegreesBetweenWwloc } from "hamgrid";
+
+const from = "JO70FC";
+const to = "JN79IX";
+
+console.log(distanceKmBetweenWwloc(from, to));
+console.log(bearingDegreesBetweenWwloc(from, to));
+```
+
+### Option 2: GitHub bundle deployment (no npm dependency)
+
+If you prefer GitHub-hosted distribution, publish a browser bundle in your repository and load it from a
+version-pinned GitHub CDN URL.
+
+1. Build a browser ESM bundle (for example `hamgrid.browser.mjs`).
+2. Commit it under a stable path such as `bundle/hamgrid.browser.mjs`.
+3. Create a release tag (for example `v1.0.0`).
+4. Import using jsDelivr GitHub mode pinned to that tag.
+
+```html
+<!doctype html>
+<html>
+  <body>
+    <script type="module">
+      import {
+        distanceKmBetweenWwloc,
+        bearingDegreesBetweenWwloc
+      } from "https://cdn.jsdelivr.net/gh/jvavruska/hamgrid@v1.0.0/bundle/hamgrid.browser.mjs";
+
+      const from = "JO70FC";
+      const to = "JN79IX";
+
+      console.log("distance km", distanceKmBetweenWwloc(from, to));
+      console.log("bearing deg", bearingDegreesBetweenWwloc(from, to));
+    </script>
+  </body>
+</html>
+```
+
+Notes:
+
+- Always pin a tag (`@v1.0.0`), not a branch, for reproducible builds.
+- Keep old bundle files available for existing versions.
+- jsDelivr serves GitHub content from its edge cache and is generally suitable for static asset delivery.
+
 ## API
 
 Main package exports are re-exported from src/index.ts.
@@ -135,6 +193,8 @@ console.log(bearingDegreesBetweenWwloc("JO70FC", "JN79IX"));
 ## Scripts
 
 - `npm run build`: compile TypeScript to dist
+- `npm run bundle:build`: build browser ESM bundle at `bundle/hamgrid.browser.mjs`
+- `npm run bundle:deploy`: rebuild browser bundle, commit it, and push to current branch
 - `npm run start`: run compiled demo
 - `npm run demo`: build then run demo
 - `npm test`: currently same as demo
