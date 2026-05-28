@@ -64,7 +64,7 @@ version-pinned GitHub CDN URL.
 
 1. Build a browser ESM bundle (for example `hamgrid.browser.mjs`).
 2. Commit it under a stable path such as `bundle/hamgrid.browser.mjs`.
-3. Create a release tag (for example `v1.0.0`).
+3. Create a release tag (for example `v1.1.0`).
 4. Import using jsDelivr GitHub mode pinned to that tag.
 
 ```html
@@ -75,7 +75,7 @@ version-pinned GitHub CDN URL.
       import {
         distanceKmBetweenWwloc,
         bearingDegreesBetweenWwloc
-      } from "https://cdn.jsdelivr.net/gh/jvavruska/hamgrid@v1.0.0/bundle/hamgrid.browser.mjs";
+      } from "https://cdn.jsdelivr.net/gh/jvavruska/hamgrid@v1.1.0/bundle/hamgrid.browser.mjs";
 
       const from = "JO70FC";
       const to = "JN79IX";
@@ -89,7 +89,7 @@ version-pinned GitHub CDN URL.
 
 Notes:
 
-- Always pin a tag (`@v1.0.0`), not a branch, for reproducible builds.
+- Always pin a tag (`@v1.1.0`), not a branch, for reproducible builds.
 - Keep old bundle files available for existing versions.
 - jsDelivr serves GitHub content from its edge cache and is generally suitable for static asset delivery.
 
@@ -177,6 +177,16 @@ Initial azimuth bearing in degrees between two WWLOC locators.
 import { bearingDegreesBetweenWwloc } from "./dist";
 
 console.log(bearingDegreesBetweenWwloc("JO70FC", "JN79IX"));
+```
+
+### `qsoPoints(source, target)`
+
+Computes QSO points as `1 + trunc(distanceKmBetweenWwloc(source, target))`.
+
+```ts
+import { qsoPoints } from "./dist";
+
+console.log(qsoPoints("JO70FC", "JN79IX"));
 ```
 
 ## Notes
