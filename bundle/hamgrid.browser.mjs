@@ -151,11 +151,15 @@ function bearingDegreesBetweenWwloc(first, second) {
   const to = wwlocToCoordinates(second);
   return bearingDegreesBetweenCoordinates(from, to);
 }
+function qsoPoints(source, target) {
+  return 1 + Math.trunc(distanceKmBetweenWwloc(source, target));
+}
 export {
   bearingDegreesBetweenCoordinates,
   bearingDegreesBetweenWwloc,
   coordinatesToWwloc,
   distanceKmBetweenCoordinates,
   distanceKmBetweenWwloc,
+  qsoPoints,
   wwlocToCoordinates
 };
